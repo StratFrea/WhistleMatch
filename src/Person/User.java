@@ -9,8 +9,15 @@ public abstract class User {
     private String email;
     private String hashedPassword;
     private Integer userID;
+    private UserType type;
 
-    public User(String name, String email, String password, UserDatabase userDatabase){
+    public enum UserType {
+        OFFICIAL,
+        ASSIGNOR,
+        ADMIN
+    };
+
+    public User(String name, String email, String password, UserDatabase userDatabase, UserType type){
         this.name = name;
         this.email = email;
         this.hashedPassword = hashPassword(password);
@@ -40,6 +47,7 @@ public abstract class User {
     public String getHashedPassword() {
         return hashedPassword;
     }
+    public UserType getType() {return type;}
 
     public void setUserID(Integer userID) {
         this.userID = userID;
@@ -53,9 +61,9 @@ public abstract class User {
         this.email = email;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
+    public void setHashedPassword(String hashedPassword) {this.hashedPassword = hashedPassword;}
+    public void setType(UserType type) {this.type = type;}
+    
 
     /**
      * Hashes the password using SHA-256

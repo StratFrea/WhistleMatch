@@ -11,11 +11,12 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../Coding Projects/Java/Libraries/opencsv-5.9.jar!/" />
+          <root url="jar://C:/Coding Projects/Java/Libraries/opencsv-5.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="opencsv-5.9" level="project" />
   </component>
 </module>

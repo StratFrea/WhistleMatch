@@ -2,14 +2,12 @@ package IO;
 
 import Assignments.Game;
 import Assignments.GameDatabase;
-import Assignments.Location;
 import Person.Assignor;
 import Person.Official;
 import Person.User;
 import Person.UserDatabase;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvValidationException;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -141,9 +139,50 @@ public class FileIO {
 
         // All entries
         for (User user: userDatabase.getUsers()) {
-            String[] data = {user.getUserID().toString(), user.getName(), user.getEmail(), user.getHashedPassword()};
+            String[] data = {user.getUserID().toString(), user.getName(), String.valueOf(user.getType()), user.getEmail(), user.getHashedPassword()};
             csvWriter.writeNext(data);
         }
     }
+
+    public void loadUsers(File file, UserDatabase userDatabase) {
+        // TODO More explicit try and catch
+        FileReader fileReader;
+        try {
+            fileReader = new FileReader(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        CSVReader csvReader = new CSVReader(fileReader);
+        String[] nextRecord;
+
+        Integer userID = null;
+        String name = null;
+        String email = null;
+        String hashedPassword = null;
+        User.UserType type = null;
+        try {
+            nextRecord = csvReader.readNext();
+            while (nextRecord != null) {
+                userID = Integer.parseInt(nextRecord[0]);
+                name = nextRecord[1];
+                email = nextRecord[2];
+                hashedPassword = nextRecord[3];
+                type = User.UserType.valueOf(nextRecord[4]);
+
+                if (type == User.UserType.OFFICIAL) {
+                    userDatabase.addUser(new Official(name, email, hashedPassword, userDatabase));
+                } else if (type == User.UserType.ASSIGNOR) {
+                    userDatabase.addUser(new Assignor(name, email, hashedPassword, userDatabase));
+                }
+                nextRecord = csvReader.readNext();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 
 }
