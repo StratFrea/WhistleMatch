@@ -46,4 +46,14 @@ public class UserDatabase {
     public ArrayList<User> getUsers() {
         return users;
     }
+    public void clearUsers() {
+        users.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "UserDatabase{" +
+                "users=" + users +
+                '}';
+    }
 }

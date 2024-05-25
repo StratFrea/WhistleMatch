@@ -11,10 +11,21 @@ public abstract class User {
     private Integer userID;
     private UserType type;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", hashedPassword='" + hashedPassword + '\'' +
+                ", userID=" + userID +
+                ", type=" + type +
+                '}';
+    }
+
     public enum UserType {
         OFFICIAL,
         ASSIGNOR,
-        ADMIN
+        ADMIN;
     };
 
     public User(String name, String email, String password, UserDatabase userDatabase, UserType type){
@@ -22,6 +33,7 @@ public abstract class User {
         this.email = email;
         this.hashedPassword = hashPassword(password);
         this.userID = userDatabase.generateUserID();
+        this.type = type;
     }
 
     /**
@@ -90,10 +102,5 @@ public abstract class User {
             throw new RuntimeException(e);
         }
         return hexString.toString();
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }
